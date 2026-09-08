@@ -2,9 +2,11 @@ idf_component_register(
     SRCS 
         "main.c"
         "wifi/wifi_helper.c"
+        "config/config_manager.c"
     INCLUDE_DIRS 
         "."
         "wifi"
+        "config"
     REQUIRES 
         esp_adc 
         esp_wifi 
