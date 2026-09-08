@@ -1,3 +1,7 @@
+# IDE / VS Code configurations
+.vscode/
+*.code-workspace
+
 # macOS
 .DS_Store
 .AppleDouble
@@ -40,6 +44,7 @@ sdkconfig
 managed_components/
 # If ESP-IDF tools are installed/referenced locally to the project
 .espressif/
+dependencies.lock
 
 # CMake generated files
 CMakeCache.txt
