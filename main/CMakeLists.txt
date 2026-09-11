@@ -18,5 +18,5 @@ idf_component_register(
         esp_http_server
         esp_event 
         nvs_flash
-        cjson
+        esp_driver_gpio
 )
