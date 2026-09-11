@@ -3,10 +3,12 @@ idf_component_register(
         "main.c"
         "wifi/wifi_helper.c"
         "config/config_manager.c"
+        "api_client/api_client.c"
     INCLUDE_DIRS 
         "."
         "wifi"
         "config"
+        "api_client"
     REQUIRES 
         esp_adc 
         esp_wifi 
