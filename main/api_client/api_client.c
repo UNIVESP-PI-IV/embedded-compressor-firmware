@@ -28,7 +28,13 @@ esp_err_t http_post_json(const char *url, const char *json_payload) {
     esp_err_t err = esp_http_client_perform(client);
     if (err == ESP_OK) {
         int status_code = esp_http_client_get_status_code(client);
-        if (status_code < 200 || status_code >= 300) {
+        
+        char response_buffer[128];
+        esp_http_client_read_response(client, response_buffer, sizeof(response_buffer) - 1);
+
+        if (status_code >= 200 && status_code < 300) {
+            ESP_LOGI(TAG, "Sucesso HTTP [%d]", status_code);
+        } else {
             ESP_LOGW(TAG, "HTTP POST retornou status code: %d", status_code);
             err = ESP_FAIL;
         }

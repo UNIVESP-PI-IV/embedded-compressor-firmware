@@ -5,11 +5,12 @@
 #include "esp_log.h"
 #include "config_manager.h"
 #include "wifi_helper.h"
+#include "sdkconfig.h"
 #include "api_client/api_client.h"
 #include "sensors/temperature/temp_sensor.h"
 
 static const char *TAG = "MAIN_APP";
-#define TELEMETRY_URL "http://192.168.1.100:8000/api/v1/compressor/telemetry"
+#define TELEMETRY_URL CONFIG_TELEMETRY_SERVER_URL
 
 static void compressor_telemetry_task(void *pvParameters)
 {
