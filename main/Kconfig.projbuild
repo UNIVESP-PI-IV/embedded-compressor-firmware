@@ -1,0 +1,16 @@
+menu "Configuracoes da Telemetria"
+
+    config TELEMETRY_SERVER_URL
+        string "URL do Servidor de Telemetria"
+        default "http://ENDERECO-DO-SERVER/api/compressor"
+        help
+            URL completa do endpoint para envio dos dados HTTP POST.
+
+    config TELEMETRY_SEND_INTERVAL_MS
+        int "Intervalo de envio (ms)"
+        default 10000
+        range 1000 600000
+        help
+            Frequencia em milissegundos entre cada envio de leitura.
+
+endmenu

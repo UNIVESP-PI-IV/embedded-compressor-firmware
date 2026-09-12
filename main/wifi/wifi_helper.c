@@ -9,6 +9,7 @@
 #include "config_manager.h"
 
 static const char *TAG = "WIFI_MODULE";
+static volatile bool is_connected = false;
 static int s_retry_num = 0;
 
 #define WIFI_SSID_AP "device"
@@ -19,6 +20,8 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t e
 {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
     {
+        is_connected = false;
+        
         wifi_event_sta_disconnected_t *disconected = (wifi_event_sta_disconnected_t *)event_data;
         ESP_LOGE(TAG, "Falha na conexao STA. Motivo: %d", disconected->reason);
 
@@ -38,7 +41,13 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t e
         ip_event_got_ip_t *event = (ip_event_got_ip_t *)event_data;
         ESP_LOGI(TAG, "IP Obtido na rede STA: " IPSTR, IP2STR(&event->ip_info.ip));
         s_retry_num = 0;
+
+        is_connected = true;
     }
+}
+
+bool wifi_is_connected(void){
+    return is_connected;
 }
 
 void wifi_init_loop(void)

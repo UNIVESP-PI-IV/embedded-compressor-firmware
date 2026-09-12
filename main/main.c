@@ -1,11 +1,55 @@
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "nvs_flash.h"
 #include "esp_log.h"
 #include "config_manager.h"
 #include "wifi_helper.h"
+#include "sdkconfig.h"
+#include "api_client/api_client.h"
+#include "sensors/temperature/temp_sensor.h"
 
 static const char *TAG = "MAIN_APP";
+#define TELEMETRY_URL CONFIG_TELEMETRY_SERVER_URL
+
+static void compressor_telemetry_task(void *pvParameters)
+{
+    temp_sensor_data_t temp_data;
+    temp_sensor_init();
+
+    while (1)
+    {
+        //Só envia se o Wi-Fi STA estiver conectado e com IP atribuído
+        if (wifi_is_connected())
+        {
+            if (temp_sensor_read(&temp_data) == ESP_OK)
+            {
+                char *json_payload = temp_sensor_build_json(&temp_data);
+
+                if (json_payload != NULL)
+                {
+                    ESP_LOGI(TAG, "Enviando dados: %s", json_payload);
+
+                    esp_err_t err = http_post_json(TELEMETRY_URL, json_payload);
+
+                    if (err == ESP_OK) {
+                        ESP_LOGI(TAG, "Telemetria enviada com sucesso!");
+                    } else {
+                        ESP_LOGE(TAG, "Falha ao enviar telemetria via HTTP");
+                    }
+
+                    free(json_payload);
+                }
+            }
+        }
+        else
+        {
+            ESP_LOGW(TAG, "Aguardando conexão Wi-Fi (IP STA)...");
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(10000));
+    }
+}
 
 void app_main(void)
 {
@@ -35,4 +79,12 @@ void app_main(void)
 
     config_mdns_init();
     config_start_web_server();
+
+    xTaskCreate(
+        compressor_telemetry_task,
+        "telemetry_task",
+        4096,
+        NULL,
+        5,
+        NULL);
 }
