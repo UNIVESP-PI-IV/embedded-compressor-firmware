@@ -19,4 +19,6 @@ idf_component_register(
         esp_event 
         nvs_flash
         esp_driver_gpio
+        espressif__ds18b20 
+        espressif__onewire_bus
 )
