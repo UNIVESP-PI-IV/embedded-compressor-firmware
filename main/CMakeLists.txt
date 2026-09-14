@@ -4,13 +4,16 @@ idf_component_register(
         "wifi/wifi_helper.c"
         "config/config_manager.c"
         "api_client/api_client.c"
+        "api_client/data_formatter.c"
         "sensors/temperature/temp_sensor.c"
+        "sensors/vibration/vibration_sensor.c"
     INCLUDE_DIRS 
         "."
         "wifi"
         "config"
         "api_client"
         "sensors/temperature"
+        "sensors/vibration"
     REQUIRES 
         esp_adc 
         esp_wifi 
@@ -21,4 +24,5 @@ idf_component_register(
         esp_driver_gpio
         espressif__ds18b20 
         espressif__onewire_bus
+        esp_driver_i2c
 )
