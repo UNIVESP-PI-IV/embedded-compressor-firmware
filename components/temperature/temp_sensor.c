@@ -1,7 +1,6 @@
-#include "sensors/temperature/temp_sensor.h"
+#include "temp_sensor.h"
 #include <stdlib.h>
 #include "esp_log.h"
-#include "cJSON.h"
 #include "ds18b20.h"
 #include "onewire_bus.h"
 #include "driver/gpio.h"

@@ -1,15 +1,17 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "esp_log.h"
+#include "esp_err.h"
+#include "nvs_flash.h"
+
+#include "wifi.h"
+#include "wifi_config.h"
+#include "api_client.h"
+#include "api_payload.h"
+#include "temp_sensor.h"
+#include "vibration_sensor.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "nvs_flash.h"
-#include "esp_log.h"
-#include "config_manager.h"
-#include "wifi_helper.h"
-#include "sdkconfig.h"
-#include "api_client/api_client.h"
-#include "api_client/data_formatter.h"
-#include "sensors/temperature/temp_sensor.h"
-#include "sensors/vibration/vibration_sensor.h"
 
 static const char *TAG = "MAIN_APP";
 

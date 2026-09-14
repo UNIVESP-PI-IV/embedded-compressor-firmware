@@ -1,4 +1,4 @@
-#include "wifi/wifi_helper.h"
+#include "wifi.h"
 #include "esp_err.h"
 #include "esp_check.h"
 #include "esp_netif.h"
@@ -6,7 +6,7 @@
 #include "esp_wifi.h"
 #include "esp_log.h"
 #include <string.h>
-#include "config_manager.h"
+#include "wifi_config.h"
 
 static const char *TAG = "WIFI_MODULE";
 static volatile bool is_connected = false;
