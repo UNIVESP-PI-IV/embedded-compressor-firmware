@@ -1,0 +1,10 @@
+idf_component_register(
+    SRCS 
+        "temp_sensor.c"
+    INCLUDE_DIRS 
+        "include"
+    REQUIRES   
+        esp_driver_gpio
+        espressif__ds18b20 
+        espressif__onewire_bus
+)

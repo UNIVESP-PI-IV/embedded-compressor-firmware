@@ -1,4 +1,4 @@
-#include "config/config_manager.h"
+#include "wifi_config.h"
 #include "esp_err.h"
 #include <stddef.h>
 #include "nvs.h"

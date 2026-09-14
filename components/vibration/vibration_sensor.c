@@ -1,5 +1,4 @@
-#include "sensors/vibration/vibration_sensor.h"
-#include "cJSON.h"
+#include "vibration_sensor.h"
 #include "driver/i2c_master.h"
 #include "esp_log.h"
 
