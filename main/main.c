@@ -7,31 +7,39 @@
 #include "wifi_helper.h"
 #include "sdkconfig.h"
 #include "api_client/api_client.h"
+#include "api_client/data_formatter.h"
 #include "sensors/temperature/temp_sensor.h"
+#include "sensors/vibration/vibration_sensor.h"
 
 static const char *TAG = "MAIN_APP";
+
 #define TELEMETRY_URL CONFIG_TELEMETRY_SERVER_URL
+#define TELEMETRY_INTERVAL CONFIG_TELEMETRY_SEND_INTERVAL_MS
 
 static void compressor_telemetry_task(void *pvParameters)
 {
     temp_sensor_data_t temp_data;
+    vibration_sensor_data_t vibration_data;
+
     temp_sensor_init();
+    vibration_sensor_init();
 
     while (1)
     {
-        //Só envia se o Wi-Fi STA estiver conectado e com IP atribuído
         if (wifi_is_connected())
         {
-            if (temp_sensor_read(&temp_data) == ESP_OK)
-            {
-                char *json_payload = temp_sensor_build_json(&temp_data);
+            esp_err_t err_temp = temp_sensor_read(&temp_data);
+            esp_err_t err_vib = vibration_sensor_read(&vibration_data);
+
+            if (err_temp == ESP_OK && err_vib == ESP_OK){
+
+                char *json_payload = build_payload(&temp_data, &vibration_data);
 
                 if (json_payload != NULL)
                 {
-                    ESP_LOGI(TAG, "Enviando dados: %s", json_payload);
+                    ESP_LOGI(TAG, "Enviando telemetria: %s", json_payload);
 
                     esp_err_t err = http_post_json(TELEMETRY_URL, json_payload);
-
                     if (err == ESP_OK) {
                         ESP_LOGI(TAG, "Telemetria enviada com sucesso!");
                     } else {
@@ -41,13 +49,17 @@ static void compressor_telemetry_task(void *pvParameters)
                     free(json_payload);
                 }
             }
+            else
+            {
+                ESP_LOGW(TAG, "Falha ao ler um ou mais sensores. Envio ignorado.");
+            }
         }
         else
         {
             ESP_LOGW(TAG, "Aguardando conexão Wi-Fi (IP STA)...");
         }
 
-        vTaskDelay(pdMS_TO_TICKS(10000));
+        vTaskDelay(pdMS_TO_TICKS(TELEMETRY_INTERVAL));
     }
 }
 

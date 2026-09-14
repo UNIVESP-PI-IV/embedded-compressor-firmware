@@ -80,27 +80,3 @@ esp_err_t temp_sensor_read(temp_sensor_data_t *data) {
 
     return err;
 }
-
-char* temp_sensor_build_json(const temp_sensor_data_t *data) {
-    if (!data) {
-        return NULL;
-    }
-
-    cJSON *root = cJSON_CreateObject();
-    if (!root) {
-        ESP_LOGE(TAG, "Erro ao criar objeto cJSON");
-        return NULL;
-    }
-
-    cJSON_AddNumberToObject(root, "temperature", data->temperature_celsius);
-
-    char *json_string = cJSON_PrintUnformatted(root);
-    cJSON_Delete(root);
-
-    if (!json_string) {
-        ESP_LOGE(TAG, "Erro ao serializar cJSON");
-        return NULL;
-    }
-
-    return json_string;
-}

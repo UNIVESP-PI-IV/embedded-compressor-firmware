@@ -4,6 +4,7 @@ idf_component_register(
         "wifi/wifi_helper.c"
         "config/config_manager.c"
         "api_client/api_client.c"
+        "api_client/data_formatter.c"
         "sensors/temperature/temp_sensor.c"
         "sensors/vibration/vibration_sensor.c"
     INCLUDE_DIRS 

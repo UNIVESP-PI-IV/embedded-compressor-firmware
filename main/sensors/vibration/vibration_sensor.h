@@ -11,6 +11,5 @@ typedef struct {
 
 esp_err_t vibration_sensor_init(void);
 esp_err_t vibration_sensor_read(vibration_sensor_data_t *data);
-char* vibration_sensor_build_json(const vibration_sensor_data_t *data);
 
 #endif
