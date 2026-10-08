@@ -2,6 +2,7 @@
 #include <string.h>
 #include "esp_log.h"
 #include "esp_http_client.h"
+#include "esp_crt_bundle.h"
 
 static const char *TAG = "HTTP_CLIENT";
 
@@ -13,7 +14,8 @@ esp_err_t http_post_json(const char *url, const char *json_payload) {
     esp_http_client_config_t config = {
         .url = url,
         .method = HTTP_METHOD_POST,
-        .timeout_ms = 5000,
+        .timeout_ms = 15000,
+        .crt_bundle_attach = esp_crt_bundle_attach,
     };
 
     esp_http_client_handle_t client = esp_http_client_init(&config);

@@ -1,0 +1,55 @@
+dependencies:
+  espressif/cjson:
+    component_hash: e788323270d90738662d66fffa910bfe1fba019bba087f01557e70c40485b469
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=5.0'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 1.7.19~2
+  espressif/ds18b20:
+    component_hash: 87a753636db56dbb42633b8fdd615c63c5e752ec9c9629e6386d8115f36efc30
+    dependencies:
+    - name: espressif/onewire_bus
+      registry_url: https://components.espressif.com
+      require: private
+      version: ^1.0.0
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 0.1.2
+  espressif/mdns:
+    component_hash: b5b30022c46302eab89c1d2e3b6fb5918a627563a7462f0ee284b22b9a934967
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=5.0'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 1.14.0
+  espressif/onewire_bus:
+    component_hash: dcce4fb1c2fc43c3d02de1cc9abdf062127468a785578723696de3817c526f99
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=5.0'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 1.1.2
+  idf:
+    source:
+      type: idf
+    version: 6.0.0
+direct_dependencies:
+- espressif/cjson
+- espressif/ds18b20
+- espressif/mdns
+- espressif/onewire_bus
+- idf
+manifest_hash: 520f792d1e708437451c390b4c380d56f7bc81672f4a2083288165e57dd44299
+target: esp32
+version: 3.0.0
