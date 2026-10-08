@@ -6,6 +6,7 @@ idf_component_register(
         "include"
     REQUIRES 
         esp_http_client
+        mbedtls
         esp_http_server
         cjson
         temperature
