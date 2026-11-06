@@ -2,7 +2,7 @@ menu "Configuracoes da Telemetria"
 
     config TELEMETRY_SERVER_URL
         string "URL do Servidor de Telemetria"
-        default "http://ENDERECO_DO_SERVER/api/compressor"
+        default "https://palegoldenrod-eel-913265.hostingersite.com/api/compressor"
         help
             URL completa do endpoint para envio dos dados HTTP POST.
 
