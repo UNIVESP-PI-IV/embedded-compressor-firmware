@@ -208,7 +208,7 @@ A configuração inicial em `sdkconfig.defaults` usa:
 | Flash | 4 MB |
 | Partição do aplicativo | 1,5 MB, sem OTA |
 | Verificação HTTPS | Pacote completo de certificados |
-| URL | `https://darkblue-viper-448014.hostingersite.com/` |
+| URL | `https://palegoldenrod-eel-913265.hostingersite.com/api/compressor` |
 
 O intervalo padrão definido em `main/Kconfig.projbuild` é 5000 ms entre leituras.
 As leituras são acumuladas e enviadas em lote a cada 300000 ms (5 minutos), ou

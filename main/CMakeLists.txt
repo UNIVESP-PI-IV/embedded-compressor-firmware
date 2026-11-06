@@ -5,6 +5,7 @@ idf_component_register(
         "."
     REQUIRES
         nvs_flash
+        esp_timer
         log
         wifi
         api_client
