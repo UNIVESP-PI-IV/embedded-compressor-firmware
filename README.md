@@ -210,9 +210,11 @@ A configuração inicial em `sdkconfig.defaults` usa:
 | Verificação HTTPS | Pacote completo de certificados |
 | URL | `https://darkblue-viper-448014.hostingersite.com/` |
 
-O intervalo padrão definido em `main/Kconfig.projbuild` é 5000 ms. Ele é uma pausa
-**após** cada ciclo: leitura dos sensores e envio HTTP também consomem tempo.
-Portanto, o firmware não garante um registro exatamente a cada cinco segundos.
+O intervalo padrão definido em `main/Kconfig.projbuild` é 5000 ms entre leituras.
+As leituras são acumuladas e enviadas em lote a cada 300000 ms (5 minutos), ou
+antes se o buffer fixo de 60 registros encher. Assim, a memória usada para o lote
+permanece limitada. Se uma requisição falhar, o lote é mantido para nova tentativa;
+quando o buffer está cheio, a coleta pausa até o servidor confirmar o envio.
 
 `sdkconfig.defaults` fornece os valores iniciais. Se `sdkconfig` já existe, altere
 as opções em `menuconfig` ou no editor SDK Configuration da extensão. Depois de
@@ -233,16 +235,21 @@ O modo AP+STA mantém o ponto de acesso local disponível junto da conexão à r
 
 ## Telemetria e resultado esperado
 
-O firmware envia um POST com `Content-Type: application/json`, por exemplo:
+O firmware envia um POST com `Content-Type: application/json` contendo até 60
+leituras por requisição, por exemplo:
 
 ```json
 {
-  "temperature": 26.625,
-  "vibration": {
-    "x": -0.1728515625,
-    "y": -0.593994140625,
-    "z": -1.77587890625
-  }
+  "readings": [
+    {
+      "temperature": 26.625,
+      "vibration": {
+        "x": -0.1728515625,
+        "y": -0.593994140625,
+        "z": -1.77587890625
+      }
+    }
+  ]
 }
 ```
 
@@ -258,8 +265,10 @@ HTTP_CLIENT: Sucesso HTTP [201]
 MAIN_APP: Telemetria enviada com sucesso!
 ```
 
-O cliente usa `esp_crt_bundle_attach` para verificar o servidor HTTPS. Os registros
-recebem seu horário no banco; o payload do firmware não contém um timestamp.
+O cliente usa `esp_crt_bundle_attach` para verificar o servidor HTTPS. O backend
+valida o lote inteiro antes de abrir uma conexão e grava os registros em uma
+única transação. Os registros recebem seu horário no banco; o payload do firmware
+não contém timestamps individuais.
 
 ## Problemas comuns
 

@@ -7,10 +7,17 @@ menu "Configuracoes da Telemetria"
             URL completa do endpoint para envio dos dados HTTP POST.
 
     config TELEMETRY_SEND_INTERVAL_MS
-        int "Intervalo de envio (ms)"
+        int "Intervalo de leitura dos sensores (ms)"
         default 5000
         range 1000 600000
         help
-            Frequencia em milissegundos entre cada envio de leitura.
+            Frequencia em milissegundos entre as leituras dos sensores.
+
+    config TELEMETRY_BATCH_INTERVAL_MS
+        int "Intervalo do lote de telemetria (ms)"
+        default 300000
+        range 10000 3600000
+        help
+            Tempo máximo em milissegundos até enviar o lote acumulado.
 
 endmenu
